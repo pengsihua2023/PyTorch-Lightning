@@ -15,4 +15,28 @@ PyTorch Lightning 是一个在 PyTorch 之上构建的开源库，旨在帮助�
 集成实验跟踪：与流行的实验跟踪工具（如 MLFlow、Comet ML、Weights & Biases 等）集成，方便用户跟踪实验、参数和结果。  
 ### 社区支持  
 活跃的社区：PyTorch Lightning 有一个活跃和支持性强的社区，用户可以从中获得帮助、分享最佳实践和贡献代码。  
-总之，PyTorch Lightning 是一个高度抽象化的库，它在保持 PyTorch 的灵活性和强大功能的同时，简化了深度学习模型的开发和研究过程，使得代码更加清晰、易于维护和扩展。    
+总之，PyTorch Lightning 是一个高度抽象化的库，它在保持 PyTorch 的灵活性和强大功能的同时，简化了深度学习模型的开发和研究过程，使得代码更加清晰、易于维护和扩展。  
+
+##  PyTorch Lightning训练循环和原始 PyTorch 训练循环有什么区别？
+### 原始 PyTorch 训练循环
+在原始 PyTorch 中，训练一个模型通常需要手动编写一个外层的 for 循环来控制 epoch 的数量，以及内部的循环来遍历数据集中的批次。示例如下：  
+```
+for epoch in range(max_epochs):
+    # 训练阶段
+    for batch in train_loader:
+        # 训练模型的一批数据
+        pass
+
+    # 验证阶段
+    with torch.no_grad():
+        for batch in val_loader:
+            # 验证模型的一批数据
+            pass
+```
+### PyTorch Lightning 训练过程
+而在 PyTorch Lightning 中，框架接管了这些循环的管理工作，使得用户可以专注于模型的定义、数据的准备和优化器的配置。用户只需定义好模型（通过继承 LightningModule），指定数据加载方式（通过实现数据加载相关的方法），并设置训练的配置（如 epoch 数量、使用的 GPU 数量等），然后创建一个 Trainer 实例并调用其 fit 方法来开始训练过程。示例如下：  
+```
+trainer = Trainer(max_epochs=3)
+trainer.fit(model, train_dataloader, val_dataloader)
+```
+
