@@ -82,13 +82,13 @@ def validation_epoch_end(self, validation_step_outputs):
 这个过程完全自动化，极大地简化了代码并减少了出错的可能性，同时也提供了灵活性来自定义验证逻辑的每个部分。通过这种方式，PyTorch Lightning 使得实现复杂的训练和验证逻辑变得简单而直接。  
 
 ## trainer.fit(model, train_dataloader, val_dataloader)把训练好验证循环都完成了？
-是的，您提供的代码使用 PyTorch Lightning 框架实现了模型的训练和验证循环。在 PyTorch Lightning 中，Trainer 类负责管理整个训练和验证过程。当您调用 trainer.fit(model, train_dataloader, val_dataloader) 方法时，它会自动进行以下操作：  
+是的，这行代码里是PyTorch Lightning 框架实现了模型的训练和验证循环。在 PyTorch Lightning 中，Trainer 类负责管理整个训练和验证过程。当您调用 trainer.fit(model, train_dataloader, val_dataloader) 方法时，它会自动进行以下操作：  
 
-训练循环：对于每一个 epoch，遍历训练数据加载器 (train_dataloader) 中的所有批次，对每个批次执行模型的训练步骤（通过调用您在 LightningModule 中定义的 training_step 方法）。  
+1. 训练循环：对于每一个 epoch，遍历训练数据加载器 (train_dataloader) 中的所有批次，对每个批次执行模型的训练步骤（通过调用您在 LightningModule 中定义的 training_step 方法）。  
 
-验证循环：在每个 epoch 的训练阶段结束后，自动遍历验证数据加载器 (val_dataloader) 中的所有批次，对每个批次执行模型的验证步骤（通过调用您在 LightningModule 中定义的 validation_step 方法）。这有助于监控模型在未见过的数据上的性能，并可以用来防止模型过拟合。  
+2. 验证循环：在每个 epoch 的训练阶段结束后，自动遍历验证数据加载器 (val_dataloader) 中的所有批次，对每个批次执行模型的验证步骤（通过调用您在 LightningModule 中定义的 validation_step 方法）。这有助于监控模型在未见过的数据上的性能，并可以用来防止模型过拟合。  
 
-日志记录和检查点：根据配置，Trainer 还可以自动记录训练和验证过程中的重要指标，并在适当的时刻保存模型的检查点（比如每个 epoch 结束后或者当某个监控的指标改善时）。  
+3. 日志记录和检查点：根据配置，Trainer 还可以自动记录训练和验证过程中的重要指标，并在适当的时刻保存模型的检查点（比如每个 epoch 结束后或者当某个监控的指标改善时）。  
 
 在 PyTorch Lightning 的训练过程中，所有这些步骤都是自动管理的，大大简化了代码的复杂性。您只需要在 LightningModule 中正确定义 training_step、validation_step 以及可能还有 configure_optimizers 等方法，然后创建 Trainer 并调用其 fit 方法即可开始训练和验证。  
 
